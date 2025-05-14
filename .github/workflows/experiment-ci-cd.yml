@@ -1,0 +1,92 @@
+name: ci-cd
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  unit-test:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout do código
+        uses: actions/checkout@v4
+
+      - name: Instalar dependências do backend
+        run: |
+          cd backend
+          npm install
+
+      - name: Executar testes unitários com Jest
+        run: |
+          cd backend
+          npm test -- --coverage
+
+  build:
+    needs: unit-test
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout do código
+        uses: actions/checkout@v4
+
+      - name: Configurar Docker Buildx
+        uses: docker/setup-buildx-action@v2
+
+      - name: Configurar Docker QEMU
+        uses: docker/setup-qemu-action@v2
+
+      - name: Build das imagens Docker
+        run: docker compose build
+
+  up-containers:
+    needs: build
+    runs-on: ubuntu-latest
+    env:
+      POSTGRES_DB: adote_facil
+      POSTGRES_HOST: adote-facil-postgres
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_PORT: 5432
+      POSTGRES_CONTAINER_PORT: 6500
+
+    steps:
+      - name: Checkout do código
+        uses: actions/checkout@v4
+
+      - name: Criar arquivo .env
+        working-directory: ./backend
+        run: |
+          echo "POSTGRES_DB=${{ env.POSTGRES_DB }}" > .env
+          echo "POSTGRES_HOST=${{ env.POSTGRES_HOST }}" >> .env
+          echo "POSTGRES_USER=${{ env.POSTGRES_USER }}" >> .env
+          echo "POSTGRES_PASSWORD=${{ env.POSTGRES_PASSWORD }}" >> .env
+          echo "POSTGRES_PORT=${{ env.POSTGRES_PORT }}" >> .env
+          echo "POSTGRES_CONTAINER_PORT=${{ env.POSTGRES_CONTAINER_PORT }}" >> .env
+
+      - name: Subir containers com Docker Compose
+        working-directory: ./backend
+        run: |
+          docker compose up -d
+          sleep 10  # aguardar containers inicializarem
+          docker compose down
+
+  delivery:
+    needs: build
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout do código
+        uses: actions/checkout@v4
+
+      - name: Gerar arquivo ZIP do projeto completo
+        run: zip -r adote-facil-projeto.zip . -x '*.git*' '*.github*' 'node_modules/*'
+
+      - name: Upload do artefato
+        uses: actions/upload-artifact@v4
+        with:
+          name: adote-facil-projeto
+          path: adote-facil-projeto.zip
+
