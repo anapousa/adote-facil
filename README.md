@@ -22,9 +22,6 @@ Clone o repositório para sua máquina local, usando o seguinte comando (onde `<
 git clone https://github.com/<USER>/adote-facil.git
 ```
 
-![image](https://github.com/user-attachments/assets/db33bda8-6a8d-4e2b-9d49-085045df24a4)
-
-
 Em seguida, no diretório clonado, copie o código a seguir para um arquivo com o seguinte nome e caminho: `.github/workflows/experimento-ci-cd.yml`. Isto é, crie diretórios `.github` e depois `workflows` e salve o código abaixo no arquivo `experimento-ci-cd.yml`.
 
 ```yml
@@ -118,6 +115,9 @@ jobs:
           path: adote-facil-projeto.zip
 
 ```
+![image](https://github.com/user-attachments/assets/ed3baeb0-3fa5-4d0e-8d0c-003934dde27f)
+![image](https://github.com/user-attachments/assets/3b207f62-1098-4fa0-969a-1adeca9a31ef)
+
 
 ## Tarefa #2: Configurar GitHub Secrets
 
@@ -141,6 +141,10 @@ Crie dois segredos (secrets) com os seguintes valores:
 
 Esses valores simulam um cenário de acesso ao banco de dados. Eles serão utilizados automaticamente no workflow `.github/workflows/experimento-ci-cd.yml`.
 
+![image](https://github.com/user-attachments/assets/0e21ceab-8058-4c60-9b13-103a90ef376c)
+![image](https://github.com/user-attachments/assets/cfd70f52-b185-4b7c-9a4b-780a1b2bd92c)
+![image](https://github.com/user-attachments/assets/fcc27f4a-109f-4808-95ba-cffc0d473c59)
+
 ## Tarefa #3: Criando um Pull Request (PR) com bug
 
 Vamos introduzir um bug simples em um teste e enviar um PR, para mostrar que ele será rejeitado pelo pipeline CI/CD.
@@ -153,6 +157,10 @@ Vamos simular que a função de atualizar o e-mail do usuário está retornando 
 ```diff
 expect(result).toEqual(Success.create({ ...updatedUser, email: 'email-errado@mail.com' }))
 ````
+
+![image](https://github.com/user-attachments/assets/05cc58db-d6c9-4168-aa5e-16a4f34a3c16)
+![image](https://github.com/user-attachments/assets/43298bfd-31fe-4732-a44b-321085fa0112)
+
 
 #### Passo 2
 
