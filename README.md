@@ -159,7 +159,7 @@ git commit -m "Alterando o arquivo update-user-spec.ts"
 git push origin bug
 ```
 
-### Passo 3
+#### Passo 3
 
 Em seguida, crie um Pull Request (PR) com suas modificações. Para isso, acesse no navegador a seguinte URL, substituindo <USER> pelo seu nome de usuário no GitHub: `https://github.com/<USER>/adotefacil/compare/main...bug`.
 
