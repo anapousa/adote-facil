@@ -11,6 +11,9 @@ O GitHub Actions permite automatizar fluxos de trabalho (workflows) como testes,
 
 Crie um Token pessoal no GitHub (i) e;  faça um Fork (ii) do projeto adote-facil. (i) Para criar um Token, clique no ícone do seu perfil, vá em **Settings → Developer settings → Personal access tokens → Tokens (classic) → Generate new token**. Marque as opções `repo` e `workflows` para gerar o Token. Gere o token mínimo (7 dias) apenas para este experimento. Copie e guarde esse código (token) para usar quando o GitHub lhe pedir para usar uma senha (password). (ii) Entre no repositório [adote-facil](https://github.com/ArthurEnrique15/adote-facil) e clique no botão **Fork** no canto superior direito na página do projeto no GitHub.
 
+![image](https://github.com/user-attachments/assets/913b1f5d-2d42-4355-9361-ed6cda99107b)
+
+
 #### Passo 2
 
 Clone o repositório para sua máquina local, usando o seguinte comando (onde `<USER>` deve ser substituído pelo seu usuário no GitHub):
@@ -18,6 +21,9 @@ Clone o repositório para sua máquina local, usando o seguinte comando (onde `<
 ```bash
 git clone https://github.com/<USER>/adote-facil.git
 ```
+
+![image](https://github.com/user-attachments/assets/db33bda8-6a8d-4e2b-9d49-085045df24a4)
+
 
 Em seguida, no diretório clonado, copie o código a seguir para um arquivo com o seguinte nome e caminho: `.github/workflows/experimento-ci-cd.yml`. Isto é, crie diretórios `.github` e depois `workflows` e salve o código abaixo no arquivo `experimento-ci-cd.yml`.
 
