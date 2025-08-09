@@ -22,10 +22,6 @@ No *job* **up-conteiners**, são realizados três comandos sequenciais:
 
 Foi incluído um *job* chamado release no pipeline, que, após a geração bem-sucedida do artefato no estágio anterior, cria automaticamente uma nova *release* no GitHub. Esse job calcula a próxima versão, incrementando o número do *patch* (por exemplo, de v1.0.0 para v1.0.1), anexa o arquivo .zip gerado e publica a *release* de forma automática.
 
-### 2. Construção de conteiners em múltiplos estágios
-
-Os *Dockerfiles* do back e do frontend foram refatorados para implementar **construções em múltiplos estágios** (multi-stage builds). Esta otimização padroniza o processo de *build*, separando-o do ambiente de execução final: um primeiro estágio utiliza as ferramentas de desenvolvimento para compilar as aplicações, e um segundo estágio, mais leve, copia apenas os arquivos de build resultantes e instala somente as dependências de produção. A mudança resulta em imagens Docker finais significativamente menores e mais seguras para ambos os serviços, ideais para o ambiente de produção, pois não contêm código-fonte ou ferramentas de desenvolvimento desnecessárias.
-
-### 3. Políticas de reinício
+### 2. Políticas de reinício
 
 A política *restart: unless-stopped* foi adicionada a todos os serviços da aplicação (banco de dados, backend e frontend). Esta configuração aumenta a resiliência do ambiente, garantindo que, em caso de falha inesperada ou reinicialização do servidor, os contêineres sejam automaticamente reiniciados. A política só não se aplica se os contêineres forem parados manualmente pelo usuário, assegurando a alta disponibilidade dos serviços.
