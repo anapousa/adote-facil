@@ -6,6 +6,9 @@ on:
   pull_request:
     branches:
       - main
+  push:
+    branches:
+      - main
 
 # Definição dos jobs (tarefas) que serão executadas
 jobs:
@@ -82,19 +85,15 @@ jobs:
 
   # Quarto job: Geração e entrega do artefato do projeto
   delivery:
-    needs: build  # Esse job depende do job 'build'
+    if: github.event_name == 'push'
+    needs: build
     runs-on: ubuntu-latest
     permissions:
-      contents: write  # Permissão necessária para criar release
-
+      contents: write
     steps:
-      - name: Checkout do código
-        uses: actions/checkout@v4
-
-      - name: Gerar arquivo ZIP do projeto completo
+      - uses: actions/checkout@v4
+      - name: Gerar arquivo ZIP do projeto
         run: zip -r adote-facil-projeto.zip . -x '*.git*' '*.github*' 'node_modules/*'
-        # Compacta o projeto, ignorando arquivos desnecessários
-
       - name: Bump version and push tag
         uses: anothrNick/github-tag-action@v1
         env:
