@@ -95,10 +95,9 @@ jobs:
         run: zip -r adote-facil-projeto.zip . -x '*.git*' '*.github*' 'node_modules/*'
         # Compacta o projeto, ignorando arquivos desnecessários
 
-      - name: Criar release com artefato
-        uses: ncipollo/release-action@v1.12.0
-        with:
-          artifacts: "adote-facil-projeto.zip"
-          tag: "v1.0.0"
-          name: "Release v1.0.0"
-          body: "Release automática do projeto Adote Fácil via GitHub Actions"
+      - name: Bump version and push tag
+        uses: anothrNick/github-tag-action@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          TAG_PREFIX: v
+          DEFAULT_BUMP: patch
